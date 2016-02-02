@@ -1,0 +1,34 @@
+{% macro render_menu(menu) %}
+    {{ descend(menu.root) }}
+{% endmacro %}
+
+{% macro entry(e) %}
+    <a href="{{ e.url }}">{{ e.title }}</a>
+{% endmacro %}
+
+{% macro nested(e) %}
+    <a href="#" class="dropdown-toggle" role="button"
+       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ e.title }}
+        <span class="caret"></span>
+    </a>
+{% endmacro %}
+
+
+{% macro descend(e) %}
+    {% for sub in e %}
+        {{ descend_nested(sub) if sub.is_nested else descend_single(sub) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro descend_single(e) %}
+    <li {% if e.active %}class="active"{% endif %}>
+        {{ entry(e) }}
+    </li>
+{% endmacro %}
+
+{% macro descend_nested(e) %}
+    <li class="dropdown {% if e.active %}active{% endif %}">{{ nested(e) }}
+        <ul class="dropdown-menu">{{ descend(e) }}</ul>
+    </li>
+{% endmacro %}

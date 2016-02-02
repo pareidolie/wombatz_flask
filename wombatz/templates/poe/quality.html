@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "generics/form.html" import render_form, errors, field_inner, form_group, field_label %}
+
+{% block title %}PoE - Check Quality{% endblock %}
+
+{% block content %}
+    {% call render_form(form) %}
+        {% call form_group(form.values) %}
+            {{ field_label(form.values) }}
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="clear" class="btn btn-default" type="button">Clear</button>
+                </span>
+                {{ field_inner(form.values) }}
+            </div>
+            {{ errors(form.values) }}
+        {% endcall %}
+    {% endcall %}
+
+    {% if result %}
+        <h3>The best combination has a total of <strong><i>{{ result[0] }}</i></strong></h3>
+        <pre>[{{ result[1]|join(", ") }}]</pre>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#clear").click(function () {
+            $("#values").val("")
+        })
+    </script>
+{% endblock %}
