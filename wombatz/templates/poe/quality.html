@@ -12,6 +12,7 @@
                     <button id="clear" class="btn btn-default" type="button">Clear</button>
                 </span>
                 {{ field_inner(form.values) }}
+                <span class="input-group-addon" id="total">=0</span>
             </div>
             {{ errors(form.values) }}
         {% endcall %}
@@ -25,8 +26,19 @@
 
 {% block scripts %}
     <script>
+        var values = $("#values");
+        var total = $("#total");
+
         $("#clear").click(function () {
-            $("#values").val("")
+            values.val("");
+        });
+
+        values.keyup(function () {
+            var match = values.val().match(/-?\d+/g);
+            if (match == null) {
+                match = [0]
+            }
+            total.text("=" + eval(match.join("+")))
         })
     </script>
 {% endblock %}

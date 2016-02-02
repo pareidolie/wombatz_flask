@@ -3,7 +3,7 @@ from re import findall
 
 from flask import request
 
-from wtforms.validators import InputRequired, NumberRange, Regexp
+from wtforms.validators import InputRequired, NumberRange
 from wtforms import Form, StringField, IntegerField
 
 
@@ -30,15 +30,12 @@ class WoWCheckItemForm(FForm):
     level = integer_field()
 
 
-TWENTY = "(20|1[0-9]|[0-9])"
-VALIDATE_NUMBERS = r"^\s*{0}(\s*,?\s*{0})*\s*$".format(TWENTY)
-GET_NUMBERS = r"[0-9]+"
+GET_NUMBERS = r"-?[0-9]+"
 
 
 class PoEQualityCombination(FForm):
-    values = StringField(validators=[Regexp(VALIDATE_NUMBERS)])
+    values = RequiredString()
 
     @property
     def integers(self):
         return list(map(int, findall(GET_NUMBERS, self.values.data)))
-
