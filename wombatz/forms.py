@@ -4,7 +4,7 @@ from re import findall
 from flask import request
 
 from wtforms.validators import InputRequired, NumberRange, Regexp
-from wtforms_components import Form, StringField, IntegerField
+from wtforms import Form, StringField, IntegerField
 
 
 RequiredString = partial(StringField, validators=[InputRequired()])
