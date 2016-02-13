@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Test{% endblock %}
+
+{% block content %}
+    <button id="start" data-url="{{ url_for("main.stream") }}" class="btn btn-primary">Start</button>
+
+    <br />
+    <br />
+    <div id="bar_outer" class="progress hidden">
+        {% for color in "danger", "warning", "success", "primary", "info" %}
+            <div id="bar-{{ color }}" class="bar progress-bar progress-bar-striped progress-bar-{{ color }}" style="width: 0"></div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var start = $("#start");
+        var bar_outer = $("#bar_outer");
+        var bar = $(".bar");
+
+        start.click(function () {
+            $(this).attr("disabled", "disabled");
+            var colors = {
+                danger: 0,
+                warning: 0,
+                success: 0,
+                primary: 0,
+                info: 0
+            };
+
+            oboe($(this).attr("data-url"))
+                    .start(function () {
+                        console.log("START");
+                        bar_outer.removeClass("hidden");
+                    })
+                    .node("color", function (color) {
+                        colors[color] = colors[color] + 1;
+                        $("#bar-" + color).css("width", colors[color] + "%");
+                        console.log(colors)
+                    })
+                    .node("status", function (status) {
+                        bar.addClass("active")
+                    })
+        })
+    </script>
+{% endblock %}

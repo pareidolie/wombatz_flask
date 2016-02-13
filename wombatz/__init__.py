@@ -13,9 +13,6 @@ def create_app(config):
 
     from .menu import menu
 
-    with app.app_context():
-        menu.init(app)
-    print(menu)
+    menu.init(app)
     app.jinja_env.globals["menu"] = menu
-
     return app

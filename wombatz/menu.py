@@ -51,8 +51,9 @@ class Menu:
         return str(self._root)
 
     def init(self, app):
-        self._home = url_for(self._home)
-        self._root.init(app)
+        with app.app_context():
+            self._home = url_for(self._home)
+            self._root.init(app)
 
     @property
     def root(self):
